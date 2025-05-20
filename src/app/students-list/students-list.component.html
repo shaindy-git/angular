@@ -24,4 +24,5 @@
 </ul>
 
 <button class="btn btn-primary" (click)="showNewStudentDetails()">AddStudent</button>
-<app-student-details [student]="selectedStudent" (onSaveNewStudent)="addStudent($event)"  (onFirstFocus)="showHelp()"></app-student-details>
+<!-- <app-student-details [student]="selectedStudent" (onSaveNewStudent)="addStudent($event)"  (onFirstFocus)="showHelp()"></app-student-details> -->
+ <app-studen-details-form [student]="selectedStudent" (onSaveNewStudent)="addStudent($event)"  (onFirstFocus)="showHelp()"></app-studen-details-form>

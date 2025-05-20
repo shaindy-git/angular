@@ -7,6 +7,7 @@ export class Student{
     active:boolean
     avg:number
     departureDate?:string
+    professions?:Professions
 
     constructor(id:number, firstName:string, lastName:string,address:string, phone:string,active:boolean,avg:number) {
         
@@ -18,4 +19,8 @@ export class Student{
         this.active=active
         this.avg=avg
     }
+}
+
+export enum Professions{
+    Teaching, Programming, Architecture
 }
