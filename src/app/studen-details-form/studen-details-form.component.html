@@ -2,27 +2,79 @@
 <div class="card" *ngIf="student else noStudent">
     <div class="cardbody" *ngIf="student.active==true">
         <form [formGroup]="studentForm">
-        <div class="form-group">
-            <label for="name">Student FirstName:</label>
-            <input type="text" class="form-control" id="name" [value]="student.firstName" (focus)="inputFocus()">
-        </div>
-        <div class="form-group">
-            <label for="name">Student LastName:</label>
-            <input type="text" class="form-control" id="name" [value]="student.lastName" (focus)="inputFocus()">
-        </div>
-        <div class="form-group">
-            <label for="name">Student Phone:</label>
-            <input type="text" class="form-control" id="name" [value]="student.phone" (focus)="inputFocus()">
-        </div>
+
+            <div class="form-group">
+                <label for="name">Student FirstName:</label>
+                <input type="text" class="form-control" id="firstName" (focus)="inputFocus()"
+                    formControlName="firstName">
+                <ng-container *ngIf="studentForm.controls['firstName'].errors">
+                    <div class="alert alert-danger" *ngIf="studentForm.controls['firstName'].errors['required']">This
+                        field is required</div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label for="name">Student LastName:</label>
+                <input type="text" class="form-control" id="lastName" (focus)="inputFocus()" formControlName="lastName">
+            </div>
+            <div class="form-group">
+                <label for="name">Student Phone:</label>
+                <input type="text" class="form-control" id="phone" (focus)="inputFocus()" formControlName="phone">
+                <ng-container *ngIf="studentForm.controls['phone'].errors" >
+                    <div class="alert alert-danger" *ngIf="studentForm.controls['phone'].errors['required']">This
+                        field is required</div>
+                    <div class="alert alert-danger" *ngIf="studentForm.controls['phone'].errors['minlength']">This
+                        field is is must be at least 9 digits</div>
+                        <div class="alert alert-danger" *ngIf=" studentForm.controls['phone'].errors['maxlength']">This
+                        field is is must be max 10 digits</div>
+                </ng-container>
+            </div>
+            <div class="form-group">
+                <label for="name">Student Address:</label>
+                <input type="text" class="form-control" id="address" (focus)="inputFocus()" formControlName="address">
+            </div>
+
+            <div class="form-group">
+                <label for="professionId">profession</label>
+                <select class="form-control" formControlName="professionId">
+                    <option *ngFor="let profession of professionsList" [value]="profession.id">{{profession.name}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Student Year</label>
+                <br>
+                <input type="radio" value="year.A" name="year" formControlName="year" />A
+                <br>
+                <input type="radio" value="year.B" name="year" formControlName="year" />B
+                <br>
+                <input type="radio" value="year.C" name="year" formControlName="year" />C
+
+            </div>
+            <br>
+            <br>
+            <div [ngSwitch]="studentForm.controls['year'].value">
+                <div *ngSwitchCase="year.A">
+                    this year has 100 study days
+                </div>
+                <div *ngSwitchCase="year.B">
+                    this year has 150 study days
+                </div>
+                <div *ngSwitchCase="year.C">
+                    this year has 200 study days
+                </div>
+            </div>
 
 
-        <button class="btn btn-primary" (click)="saveNewStudent()">Save</button>
-    </form>
+
+
+            <button class="btn btn-primary" (click)="saveNewStudent()" [disabled]="!studentForm.valid">Save</button>
+        </form>
     </div>
 
 
     <div class="card" *ngIf="!student.active">
-       student departure date: {{student.departureDate}}
+        student departure date: {{student.departureDate}}
     </div>
 
     <div>

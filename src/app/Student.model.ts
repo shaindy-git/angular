@@ -1,26 +1,33 @@
 export class Student{
     id:number
     firstName:string
-    lastName:string
-    address:string
+    lastName?:string
+    address?:string
     phone:string
-    active:boolean
-    avg:number
+    active?:boolean
+    avg?:number
     departureDate?:string
-    professions?:Professions
+    professionId?:number
+    year?:Years
 
-    constructor(id:number, firstName:string, lastName:string,address:string, phone:string,active:boolean,avg:number) {
+    constructor( firstName:string, lastName:string,address:string, phone:string, avg:number) {
         
-        this.id=id
+        this.id=0
         this.firstName=firstName
         this.lastName=lastName
         this.address=address
         this.phone=phone
-        this.active=active
+        this.active=true
         this.avg=avg
+        this.year=Years.A
     }
 }
 
-export enum Professions{
-    Teaching, Programming, Architecture
+// export enum Professions{
+//     Teaching, Programming, Architecture
+// }
+
+export enum Years{
+    A, B, C
 }
+

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Student } from '../Student.model';
+import { Student, Years } from '../Student.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { APP_PROFESSIONS, Profession } from '../models/profession.model';
 
 @Component({
   selector: 'app-studen-details-form',
@@ -9,31 +10,35 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class StudenDetailsFormComponent {
 
+  
+  professionsList:Profession[]= APP_PROFESSIONS
+  year=Years;
   private _student?: Student
 
   public get student(): Student | undefined {
     return this._student
   }
 
-
-
-  studentForm?: FormGroup
+  
   @Input()
   public set student(value: Student | undefined) {
     this._student = value;
+    if(this.student!=undefined){
     this.studentForm = new FormGroup({
-      "firstName": new FormControl(this.student?.firstName, [Validators.required]),
-      "lastName": new FormControl(this.student?.lastName),
-      "address": new FormControl(this.student?.address, [Validators.required]),
-      "phone": new FormControl(this.student?.phone, [Validators.required, Validators.minLength(9), Validators.maxLength(10)])
-    })
+      "id": new FormControl(this.student.id),
+      "firstName": new FormControl(this.student.firstName, [Validators.required]),
+      "lastName": new FormControl(this.student.lastName),
+      "address": new FormControl(this.student.address),
+      "phone": new FormControl(this.student.phone, [Validators.required, Validators.minLength(9), Validators.maxLength(10)]),
+      "professions": new FormControl(this.student.professionId),
+      "year":new FormControl(this.student.year)
+    })}
   }
 
   @Output()
   onSaveNewStudent: EventEmitter<Student> = new EventEmitter();
 
-
-
+  studentForm: FormGroup = new FormGroup({});
 
   @Output()
   onFirstFocus: EventEmitter<any> = new EventEmitter()
@@ -48,6 +53,7 @@ export class StudenDetailsFormComponent {
   }
 
   saveNewStudent() {
+    this.student=this.studentForm.value;
     this.onSaveNewStudent.emit(this.student)
   }
 
