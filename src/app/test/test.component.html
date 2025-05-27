@@ -1,0 +1,33 @@
+<!-- <ul class="list-group" *ngIf="testsList && testsList.length > 0 else noTestsMessage">
+    <li *ngFor ="let test of testsList" >
+         <div class="row">
+            <div class="col-1">{{test.id}}</div> 
+            <div class="col-1">{{test.date}}</div>
+            <div class="col-1">{{test.description}}</div>
+            <div class="col-1">{{test.mark}}</div>
+         </div>
+    </li>
+</ul>
+
+<ng-template #noTestsMessage >
+    <div class="alert alert-info">
+        No tests available for this student.
+    </div> -->
+
+
+
+    <ul class="list-group" *ngIf="student && student.testsList&&student.testsList.length > 0 else noTestsMessage">
+    <li *ngFor ="let test of student.testsList" >
+         <div class="row">
+            <div class="col-1">{{test.id}}</div> 
+            <div class="col-1">{{test.date}}</div>
+            <div class="col-1">{{test.description}}</div>
+            <div class="col-1">{{test.mark}}</div>
+         </div>
+    </li>
+</ul>
+
+<ng-template #noTestsMessage >
+    <div class="alert alert-info" *ngIf="student && (!student.testsList || student.testsList.length === 0)">
+        No tests available for this student.
+    </div> 

@@ -1,20 +1,23 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { Student } from "./Student.model";
+import { Test } from "./models/test.model";
 
 @Component({
     templateUrl: "./app.component.html",
     selector: "my-app-root"
 })
 export class AppComponent {
-    x: number = 5;
+   
+selectsdStudent: Student|undefined;
+selectsdStudentTest:Test[] | undefined;
 
-    title: string = "Hello My - App";
-
-    calc() {
-        return 0;
-    }
-
-    constructor() {
-        //this.x = "sdfs";
-    }
+  selectedStudentToApp(student: Student) {
+    
+    this.selectsdStudent = student;
+    this.selectsdStudentTest = student.testsList
+    console.log(this.selectsdStudent);
+    
+    // alert("Selected student: " + student.firstName + " " + student.lastName);
+  }
 
 }

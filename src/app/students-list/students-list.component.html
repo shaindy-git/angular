@@ -1,7 +1,7 @@
 <ul class="list-group">
     <li *ngFor="let student of students" class="list-group-item"
      [ngClass]="{'active': selectedStudent && student.id==selectedStudent.id, 'list-group-item-success':student&&student.avg && student.avg>90}"
-    [class.list-group-item-danger]="student.active">
+    [class.list-group-item-danger]="student.active" (click)="selectStudent(student)">
         <div class="row">
             <div class="col-1">{{student.id}}</div>
             <div class="col-1">{{student.firstName}}</div>

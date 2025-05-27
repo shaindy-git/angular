@@ -2,8 +2,12 @@
     <!-- <h1>{{title}}</h1>
     <a href='#'>link</a> -->
 
-<br>
-<br>
-<br>
-    <app-students-list></app-students-list>
+    <br>
+    <br>
+    <app-students-list (selectedStudentToApp)="selectedStudentToApp($event)"></app-students-list>
+    <br>
+    <br>
+    <!-- <app-test [testsList]="selectsdStudentTest"></app-test> -->
+     <app-test [student]="selectsdStudent"></app-test>
+     
 </div>

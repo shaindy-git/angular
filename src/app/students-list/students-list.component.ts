@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Student } from '../Student.model';
 
 @Component({
@@ -10,11 +10,20 @@ export class StudentsListComponent {
 
   selectedStudent?: Student
 
+  @Output()
+  selectedStudentToApp:EventEmitter<Student> = new EventEmitter<Student>();
+
   students: Student[] = [
-    { id: 1, firstName: "aaa", lastName: "aaa", address: "aaa", phone: "0548412052", active: true, avg: 80 },
+    { id: 1, firstName: "aaa", lastName: "aaa", address: "aaa", phone: "0548412052", active: true, avg: 80,testsList: [
+      { id: 1, date: "20/02/2025", description: "test1", mark: 5 }]},
     { id: 2, firstName: "bbb", lastName: "bbb", address: "bbb", phone: "0548412052", active: true, avg: 98 },
     { id: 3, firstName: "ccc", lastName: "ccc", address: "ccc", phone: "0548412052", active: false, avg: 98, departureDate: "20-02-2025" },
   ]
+
+
+selectStudent(studentToSelect: Student) {  
+  this.selectedStudentToApp.emit(studentToSelect);
+}
 
   deleteStudent(studentToDelete: Student) {
     let indexTodelete = this.students.indexOf(studentToDelete);
@@ -35,6 +44,8 @@ export class StudentsListComponent {
       studentToSave.active=true;
       this.students.push(studentToSave);
       alert("Add" )
+      console.log(this.students);
+      
     }
     else {
       let studenToUodate = this.students.filter(s => s.id == studentToSave.id)[0];
