@@ -8,6 +8,7 @@ import { Student } from '../Student.model';
 })
 export class StudentDetailsComponent {
 
+
   @Input()
   student: Student | undefined;
 

@@ -19,12 +19,12 @@
             <div class="form-group">
                 <label for="name">Student Phone:</label>
                 <input type="text" class="form-control" id="phone" (focus)="inputFocus()" formControlName="phone">
-                <ng-container *ngIf="studentForm.controls['phone'].errors" >
+                <ng-container *ngIf="studentForm.controls['phone'].errors">
                     <div class="alert alert-danger" *ngIf="studentForm.controls['phone'].errors['required']">This
                         field is required</div>
                     <div class="alert alert-danger" *ngIf="studentForm.controls['phone'].errors['minlength']">This
                         field is is must be at least 9 digits</div>
-                        <div class="alert alert-danger" *ngIf=" studentForm.controls['phone'].errors['maxlength']">This
+                    <div class="alert alert-danger" *ngIf=" studentForm.controls['phone'].errors['maxlength']">This
                         field is is must be max 10 digits</div>
                 </ng-container>
             </div>
@@ -66,6 +66,24 @@
             </div>
 
 
+            <div>
+                <label>DaysOfAbsence: </label>
+                <br>
+                <b> DaysOfAbsenced: {{this.sumOfDaysOfAbsence}}</b>
+
+                <br>
+                <label for="dateDaysOfAbsence">date:</label>
+                <input type="text" class="form-control" id="date" (focus)="inputFocus()" formControlName="date">
+
+
+
+                <label for="numOfDaysDaysOfAbsence">Number of days:</label>
+                <input type="number" class="form-control" id="numOfDaysDaysOfAbsence" (focus)="inputFocus()"
+                    formControlName="numOfDays">
+
+            </div>
+
+
 
 
             <button class="btn btn-primary" (click)="saveNewStudent()" [disabled]="!studentForm.valid">Save</button>
@@ -88,3 +106,7 @@
         No student to detail
     </div>
 </ng-template>
+
+
+<!-- dateDaysOfAbsence: string = "00/00/0000"
+  numOfDaysDaysOfAbsence: number = 0 -->
