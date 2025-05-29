@@ -12,6 +12,7 @@ export class StudentsListComponent {
   selectedStudent?: Student
   // students: Student[] = this._studentService.getStudents();
   students: Student[] = [];
+studentsAbsenceSum: { [id: number]: Promise<number> } = {};
 
  
 
@@ -43,34 +44,34 @@ export class StudentsListComponent {
     this.selectedStudent = new Student("", "", "", "", 0)
   }
 
-  saveStudentToList(studentToSave: Student) {
-    if (studentToSave.id == 0) {
-      studentToSave.id = this.students.length + 1;
-      studentToSave.active = true;
-      this.students.push(studentToSave);
-      alert("Add")
-      console.log(this.students);
-
-    }
-    else {
-      let studenToUodate = this.students.filter(s => s.id == studentToSave.id)[0];
-      let index = this.students.indexOf(studenToUodate);
-      studentToSave.active = studenToUodate.active;
-      studentToSave.avg = studenToUodate.avg
-      this.students[index] = studentToSave;
-      alert("Update")
-    }
+saveStudentToList(studentToSave: Student): void | Promise<number> {
+  if (studentToSave.id == 0) {
+    studentToSave.id = this.students.length + 1;
+    studentToSave.active = true;
+    this.students.push(studentToSave);
+    alert("Add")
+    console.log(this.students);
+    this.studentsAbsenceSum[studentToSave.id] = this._studentService.sumOfDaysOfAbsence(studentToSave.id);
     this.selectedStudent = undefined;
+    return;  }
+  else {
+    let studenToUodate = this.students.filter(s => s.id == studentToSave.id)[0];
+    let index = this.students.indexOf(studenToUodate);
+    studentToSave.active = studenToUodate.active;
+    studentToSave.avg = studenToUodate.avg
+    this.students[index] = studentToSave;
+    alert("Update")
+    this.studentsAbsenceSum[studentToSave.id] = this._studentService.sumOfDaysOfAbsence(studentToSave.id);
+    return this.studentsAbsenceSum[studentToSave.id];
   }
+  this.selectedStudent = undefined;
+}
 
 
-  getSumOfAbsence(student: Student): Promise<number> {
-    console.log(student.id);
-    
-   console.log(this._studentService.sumOfDaysOfAbsence(student.id));
-    
-  return this._studentService.sumOfDaysOfAbsence(student.id);
-  }
+
+getSumOfAbsence(student: Student): Promise<number> {
+  return this.studentsAbsenceSum[student.id] ?? Promise.resolve(0);
+}
 
 
 
@@ -81,18 +82,15 @@ export class StudentsListComponent {
 
   }
 
-  ngOnInit() {
-    this._studentService.getStudentSlowly().then((students) => {
-      this.students = students;
-    })
+ngOnInit() {
+  this._studentService.getStudentSlowly().then((students) => {
+    this.students = students;
+    students.forEach(student => {
+      this.studentsAbsenceSum[student.id] = this._studentService.sumOfDaysOfAbsence(student.id);
+    });
+  });
+}
 
-  }
-    ngOnChange() {
-    this._studentService.getStudentSlowly().then((students) => {
-      this.students = students;
-    })
-
-  }
   showHelp() {
     // alert("help")
   }
