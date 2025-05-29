@@ -65,17 +65,14 @@ export class StudentsListComponent {
 
 
   getSumOfAbsence(student: Student): Promise<number> {
-  //   console.log(student.id);
+    console.log(student.id);
     
-  //  console.log(this._studentService.sumOfDaysOfAbsence(student.id));
+   console.log(this._studentService.sumOfDaysOfAbsence(student.id));
     
-  // return this._studentService.sumOfDaysOfAbsence(student.id);
-
-  if (!this._studentService.SUMCACHE[student.id]) {
-    this.sumCache[student.id] = this._studentService.sumOfDaysOfAbsence(student.id);
+  return this._studentService.sumOfDaysOfAbsence(student.id);
   }
-  return this.sumCache[student.id];
-}
+
+
 
   constructor(private _studentService: studentService) {
     // _studentService.getStudentSlowly().then((students)=>{
@@ -85,6 +82,12 @@ export class StudentsListComponent {
   }
 
   ngOnInit() {
+    this._studentService.getStudentSlowly().then((students) => {
+      this.students = students;
+    })
+
+  }
+    ngOnChange() {
     this._studentService.getStudentSlowly().then((students) => {
       this.students = students;
     })

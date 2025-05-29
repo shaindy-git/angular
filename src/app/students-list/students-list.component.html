@@ -10,10 +10,10 @@
             <div class="col-2">{{student.phone}}</div>
             <div class="col-1">{{student.active}}</div>
             <div class="col-1">{{student.avg}}</div>
-            <div class="col-1">{{ sumCache[student.id] | async }}</div>
+            <div class="col-1">fgfg {{ getSumOfAbsence(student) | async }}</div>
             <div class="col-2">
                 <button (click)="deleteStudent(student)">
-                    delete דאוגקמא
+                    delete
                 </button>
 
             </div>

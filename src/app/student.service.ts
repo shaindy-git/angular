@@ -13,8 +13,6 @@ const STUDENTS = [{
 { id: 3, firstName: "ccc", lastName: "ccc", address: "ccc", phone: "0548412052", active: false, avg: 98, departureDate: "20-02-2025", daysOfAbsence: [] },
 ]
 
- const SUMCACHE: { [id: number]: Promise<number> } = {};
-
 
 
 @Injectable()
