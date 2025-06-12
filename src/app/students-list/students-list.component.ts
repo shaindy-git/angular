@@ -75,6 +75,8 @@ getSumOfAbsence(student: Student): Promise<number> {
 
 
 
+
+
   constructor(private _studentService: studentService) {
     // _studentService.getStudentSlowly().then((students)=>{
     //   this.students = students;

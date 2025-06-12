@@ -1,7 +1,7 @@
 <ul class="list-group">
     <li *ngFor="let student of students" class="list-group-item"
-     [ngClass]="{'active': selectedStudent && student.id==selectedStudent.id, 'list-group-item-success':student&&student.avg && student.avg>90}"
-    [class.list-group-item-danger]="student.active" (click)="selectStudent(student)">
+        [ngClass]="{'active': selectedStudent && student.id==selectedStudent.id, 'list-group-item-success':student&&student.avg && student.avg>90}"
+        [class.list-group-item-danger]="student.active" (click)="selectStudent(student)">
         <div class="row">
             <div class="col-1">{{student.id}}</div>
             <div class="col-1">{{student.firstName}}</div>
@@ -10,7 +10,12 @@
             <div class="col-2">{{student.phone}}</div>
             <div class="col-1">{{student.active}}</div>
             <div class="col-1">{{student.avg}}</div>
-            <div class="col-1">fgfg {{ getSumOfAbsence(student) | async }}</div>
+            <div class="col-1">
+                <!-- fgfg {{ getSumOfAbsence(student) | async }} -->
+                <ng-container *ngIf="getSumOfAbsence(student) | async as absenceSum">
+                    {{ absenceSum !== undefined && absenceSum !== null ? absenceSum : 0 }}
+                </ng-container>
+            </div>
             <div class="col-2">
                 <button (click)="deleteStudent(student)">
                     delete
@@ -18,12 +23,13 @@
 
             </div>
             <div class="col-2">
-            <button (click)="ShowDetails(student)">studentDetails</button>
-        </div>
+                <button (click)="ShowDetails(student)">studentDetails</button>
+            </div>
         </div>
     </li>
 </ul>
 
 <button class="btn btn-primary" (click)="showNewStudentDetails()">AddStudent</button>
 <!-- <app-student-details [student]="selectedStudent" (onSaveNewStudent)="addStudent($event)"  (onFirstFocus)="showHelp()"></app-student-details> -->
- <app-studen-details-form [student]="selectedStudent" (onSaveNewStudent)="saveStudentToList($event)"  (onFirstFocus)="showHelp()"></app-studen-details-form>
+<app-studen-details-form [student]="selectedStudent" (onSaveNewStudent)="saveStudentToList($event)"
+    (onFirstFocus)="showHelp()"></app-studen-details-form>
