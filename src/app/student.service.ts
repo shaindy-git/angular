@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Student } from "./Student.model";
 import { DaysOfAbsence } from "./models/daysOfAbsence.model";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 
 
 const STUDENTS = [{
@@ -33,6 +35,25 @@ export class studentService {
         })
 
     }
+
+    getStudentsFromServer(active:boolean, name:string):Observable<Student[]> {
+        return this._http.get<Student[]>("/api/students?active="+active+"&name="+name);
+    }
+
+    addStudentsFromServer(student:Student):Observable<any> {
+         return this._http.post("/api/students",student);
+    }
+
+    updateStudentFromServer(student:Student):Observable<any> {
+        return this._http.put("/api/students",student);
+    }
+
+    deleteStudentFromServer(id:number):Observable<any> {
+        return this._http.delete("/api/students/"+id);
+    }
+   
+
+
 
     
     avgStudent(id: number): Promise<number> {
@@ -69,6 +90,11 @@ export class studentService {
                 res(sum);
             },);
         });
+    }
+
+    
+    constructor(private _http: HttpClient) {
+
     }
 
 }

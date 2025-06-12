@@ -13,7 +13,7 @@ export class StudenDetailsFormComponent {
 
   dateDaysOfAbsence: string = "00/00/0000"
   numOfDaysDaysOfAbsence: number = 0
-  sumOfDaysOfAbsence: number=0
+  sumOfDaysOfAbsence: number = 0
 
 
   professionsList: Profession[] = APP_PROFESSIONS
@@ -68,34 +68,37 @@ export class StudenDetailsFormComponent {
   saveNewStudent() {
     // this.student = this.studentForm.value;
     console.log(this.student);
-    
-    if(this.student){
+
+    if (this.student) {
+      this.student.firstName = this.studentForm.value.firstName;
+      this.student.lastName = this.studentForm.value.lastName;
       this.student.id = this.studentForm.value.id;
       this.student.address = this.studentForm.value.address;
       this.student.phone = this.studentForm.value.phone;
       this.student.professionId = this.studentForm.value.professions;
       this.student.year = this.studentForm.value.year;
       this.student.testsList = this.studentForm.value.testsList;
-      this.student.daysOfAbsence ?.push({
+      this.student.daysOfAbsence?.push({
         date: this.studentForm.value.date,
-        numOfDays: this.studentForm.value.numOfDays});
+        numOfDays: this.studentForm.value.numOfDays
+      });
     }
-    
+
     console.log("Student Details Form: ", this.student)
     console.log(this.student?.daysOfAbsence);
 
     this.onSaveNewStudent.emit(this.student)
   }
 
-  
-  constructor(private _studentService:studentService) {
-   
+
+  constructor(private _studentService: studentService) {
+
   }
 
   ngOnChanges() {
     if (this.student) {
       console.log("onChanges", this.student.id);
-      
+
       this._studentService.sumOfDaysOfAbsence(this.student.id).then(sum => {
         this.sumOfDaysOfAbsence = sum;
       }).catch(err => {

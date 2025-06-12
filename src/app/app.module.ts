@@ -9,10 +9,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TestComponent } from './test/test.component';
 import { studentService } from "./student.service";
 import { ObservableComponent } from './observable/observable.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [AppComponent, StudentsListComponent, StudentDetailsComponent, StudenDetailsFormComponent, TestComponent, ObservableComponent],
-    imports: [BrowserModule, FormsModule, ReactiveFormsModule],
+    imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpClientModule],
     providers:[studentService],
     bootstrap: [AppComponent]
 })
