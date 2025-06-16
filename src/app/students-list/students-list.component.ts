@@ -98,63 +98,37 @@ export class StudentsListComponent {
   getSumOfAbsence(student: Student): Promise<number> {
     return this.studentsAbsenceSum[student.id] ?? Promise.resolve(0);
   }
-
-  // Filtering(act?: boolean, name?: string) {
-   
-  //   if ((!name || name === this.nameToFilter) && !act) {
-  //     return
-  //   }
-  //    this.active = act || this.active;
-  //     this.nameToFilter = name || this.nameToFilter;
-  //   this._studentService.getStudentsFromServer(this.active, this.nameToFilter).pipe().subscribe({
-  //     next: (students) => {
-  //       this.students = students;
-  //       students.forEach(student => {
-  //         this.studentsAbsenceSum[student.id] = this._studentService.sumOfDaysOfAbsence(student.id);
-  //       });
-  //     },
-  //     error: (err) => {
-  //       console.error("Error fetching students:", err);
-  //     }
-  //   })
-  // }
-
-  Filtering(act?: boolean, name?: string) {
-    // הגדרת subject רק אם עדיין לא קיים
-    if (!(this as any)._filteringDebounceSubject) {
-      (this as any)._filteringDebounceSubject = new Subject<{ act: boolean, name: string }>();
-
-      (this as any)._filteringDebounceSubject
-        .pipe(debounceTime(1000))
-        .subscribe(({ act, name }) => {
-          this.active = act;
-          this.nameToFilter = name;
-
-          this._studentService.getStudentsFromServer(this.active, this.nameToFilter).subscribe({
-            next: (students) => {
-              this.students = students;
-              students.forEach(student => {
-                this.studentsAbsenceSum[student.id] =
-                  this._studentService.sumOfDaysOfAbsence(student.id);
-              });
-            },
-            error: (err) => {
-              console.error("Error fetching students:", err);
-            }
-          });
-        });
-    }
-
-    if ((!name || name === this.nameToFilter) && !act) {
-      return;
-    }
-
-    const newAct = act ?? this.active;
-    const newName = name ?? this.nameToFilter;
-
-    // שליחה ל־Subject עם debounce
-    (this as any)._filteringDebounceSubject.next({ act: newAct, name: newName });
+  FilteringAct(act: boolean) {
+    this.active = act;
+    this.Filtering(act, this.nameToFilter);
   }
+  FilteringNAme(name: string) {
+    if (name === this.nameToFilter) {
+      return
+    } 
+    this.nameToFilter = name;
+    this.Filtering(this.active, this.nameToFilter);
+  }
+
+  Filtering(act: boolean, name: string) {
+
+    if (!name && !act) {
+      return
+    }
+    this._studentService.getStudentsFromServer(act, name).subscribe({
+      next: (students) => {
+        console.log(students);
+        this.students = students;
+        students.forEach(student => {
+          this.studentsAbsenceSum[student.id] = this._studentService.sumOfDaysOfAbsence(student.id);
+        });
+      },
+      error: (err) => {
+        console.error("Error fetching students:", err);
+      }
+    })
+  }
+
 
 
 
