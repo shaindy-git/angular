@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Student, Years } from '../Student.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { APP_PROFESSIONS, Profession } from '../models/profession.model';
+import { APP_PROFESSIONS, Profession } from '../../../models/profession.model';
+import { Student, Years } from '../Student.model';
 import { studentService } from '../student.service';
+
 
 @Component({
   selector: 'app-studen-details-form',

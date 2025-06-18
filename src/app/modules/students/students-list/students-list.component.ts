@@ -18,6 +18,8 @@ export class StudentsListComponent {
   active: boolean = false;
   nameToFilter: string = '';
 
+  nameDebounceTimer: any;
+
 
 
 
@@ -85,12 +87,25 @@ export class StudentsListComponent {
       let index = this.students.indexOf(studenToUodate);
       studentToSave.active = studenToUodate.active;
       studentToSave.avg = studenToUodate.avg
-      this.students[index] = studentToSave;
-      alert("Update")
-      this.studentsAbsenceSum[studentToSave.id] = this._studentService.sumOfDaysOfAbsence(studentToSave.id);
-      return this.studentsAbsenceSum[studentToSave.id];
+      this._studentService.updateStudentFromServer(studenToUodate).subscribe({
+        next: () => {
+          this.selectedStudent = undefined;
+          
+          this.studentsAbsenceSum[studenToUodate.id] = this._studentService.sumOfDaysOfAbsence(studenToUodate.id);
+          alert("update")
+          console.log(this.students);
+        },
+        error: (err) => {
+          alert("Error adding student: " + err.message);
+        }
+      })
+      this.students[index] = studenToUodate;
+      // alert("Update")
+      this.studentsAbsenceSum[studenToUodate.id] = this._studentService.sumOfDaysOfAbsence(studenToUodate.id);
+      return this.studentsAbsenceSum[studenToUodate.id];
+
     }
-    this.selectedStudent = undefined;
+   
   }
 
 
@@ -98,21 +113,33 @@ export class StudentsListComponent {
   getSumOfAbsence(student: Student): Promise<number> {
     return this.studentsAbsenceSum[student.id] ?? Promise.resolve(0);
   }
+
+  onNameInput(value: string) {
+  clearTimeout(this.nameDebounceTimer); // מבטל טיימר קודם אם יש
+  this.nameDebounceTimer = setTimeout(() => {
+    this.FilteringName(value);
+  }, 1000); // ממתין שנייה אחת
+}
+
   FilteringAct(act: boolean) {
+    console.log("active")
     this.active = act;
     this.Filtering(act, this.nameToFilter);
   }
-  FilteringNAme(name: string) {
+
+  FilteringName(name: string) {
     if (name === this.nameToFilter) {
+      console.log("a")
       return
     } 
+    console.log("b")
     this.nameToFilter = name;
     this.Filtering(this.active, this.nameToFilter);
   }
 
   Filtering(act: boolean, name: string) {
-
-    if (!name && !act) {
+console.log("filtering")
+    if ((name===null && name===undefined) && act===null) {
       return
     }
     this._studentService.getStudentsFromServer(act, name).subscribe({
@@ -136,6 +163,18 @@ export class StudentsListComponent {
 
 
   constructor(private _studentService: studentService) {
+    // alert("constractor")
+     this._studentService.getStudentsFromServer(this.active, this.nameToFilter).subscribe({
+      next: (students) => {
+        this.students = students;
+        students.forEach(student => {
+          this.studentsAbsenceSum[student.id] = this._studentService.sumOfDaysOfAbsence(student.id);
+        });
+      },
+      error: (err) => {
+        console.error("Error fetching students:", err);
+      }
+    })
     // _studentService.getStudentSlowly().then((students)=>{
     //   this.students = students;
     // })
@@ -149,19 +188,6 @@ export class StudentsListComponent {
     //     this.studentsAbsenceSum[student.id] = this._studentService.sumOfDaysOfAbsence(student.id);
     //   });
     // });
-
-    this._studentService.getStudentsFromServer(this.active, this.nameToFilter).subscribe({
-      next: (students) => {
-        this.students = students;
-        students.forEach(student => {
-          this.studentsAbsenceSum[student.id] = this._studentService.sumOfDaysOfAbsence(student.id);
-        });
-      },
-      error: (err) => {
-        console.error("Error fetching students:", err);
-      }
-    })
-
 
   }
 

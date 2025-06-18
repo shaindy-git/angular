@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Student } from "./Student.model";
-import { DaysOfAbsence } from "./models/daysOfAbsence.model";
+import { DaysOfAbsence } from "src/app/models/daysOfAbsence.model"
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
@@ -45,7 +45,7 @@ export class studentService {
     }
 
     updateStudentFromServer(student:Student):Observable<any> {
-        return this._http.put("/api/students",student);
+        return this._http.put("/api/students/"+student.id,student);
     }
 
     deleteStudentFromServer(id:number):Observable<any> {

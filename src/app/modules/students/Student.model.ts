@@ -1,5 +1,5 @@
-import { Test } from "./models/test.model"
-import { DaysOfAbsence } from "./models/daysOfAbsence.model";
+import { DaysOfAbsence } from "src/app/models/daysOfAbsence.model"
+import { Test } from "src/app/models/test.model"
 
 export class Student {
     id: number

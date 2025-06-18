@@ -7,7 +7,7 @@
   סינון לפי מצב פעיל
 </label> -->
 
-<input type="text" #nameInput (input)="Filtering(active, nameInput.value)" placeholder="שם תלמיד" />
+<input type="text" #nameInput (input)="onNameInput(nameInput.value)"  placeholder="שם תלמיד" />
 <a>{{active}}</a>
 <a> {{nameToFilter}} </a>
 <ul class="list-group">

@@ -1,7 +1,8 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { Test } from '../models/test.model';
-import { Student } from '../Student.model';
-import { studentService } from '../student.service';
+import { Student } from '../../students/Student.model';
+import { studentService } from '../../students/student.service';
+
+
 
 @Component({
   selector: 'app-test',

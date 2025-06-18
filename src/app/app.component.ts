@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
-import { Student } from "./Student.model";
 import { Test } from "./models/test.model";
+import { Student } from "./modules/students/Student.model";
 
 @Component({
     templateUrl: "./app.component.html",
