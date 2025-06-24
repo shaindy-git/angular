@@ -1,13 +1,13 @@
 <label>
-  <input #act type="checkbox" [checked]="active" (change)="FilteringAct(act.checked)" />
-  הצג רק תלמידים פעילים
+    <input #act type="checkbox" [checked]="active" (change)="FilteringAct(act.checked)" />
+    הצג רק תלמידים פעילים
 </label>
 <!-- <label>
   <input type="checkbox" [(ngModel)]="active" (change)="Filtering(active, nameInput.value)" />
   סינון לפי מצב פעיל
 </label> -->
 
-<input type="text" #nameInput (input)="onNameInput(nameInput.value)"  placeholder="שם תלמיד" />
+<input type="text" #nameInput (input)="onNameInput(nameInput.value)" placeholder="שם תלמיד" />
 <a>{{active}}</a>
 <a> {{nameToFilter}} </a>
 <ul class="list-group">
@@ -43,5 +43,8 @@
 
 <button class="btn btn-primary" (click)="showNewStudentDetails()">AddStudent</button>
 <!-- <app-student-details [student]="selectedStudent" (onSaveNewStudent)="addStudent($event)"  (onFirstFocus)="showHelp()"></app-student-details> -->
+
+
 <app-studen-details-form [student]="selectedStudent" (onSaveNewStudent)="saveStudentToList($event)"
     (onFirstFocus)="showHelp()"></app-studen-details-form>
+

@@ -6,11 +6,12 @@ import { studentService } from "./student.service";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
+import { TestModule } from "../tests/test/test";
 
 
 @NgModule({
-    declarations:[StudentsListComponent, StudentDetailsComponent, StudenDetailsFormComponent],
-    imports:[BrowserModule,FormsModule, ReactiveFormsModule, HttpClientModule],
+    declarations:[StudentsListComponent, StudentDetailsComponent, StudenDetailsFormComponent ],
+    imports:[BrowserModule,FormsModule, ReactiveFormsModule, HttpClientModule,TestModule ],
     providers:[studentService],
     exports:[StudentsListComponent]
 })

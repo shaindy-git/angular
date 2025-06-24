@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { APP_PROFESSIONS, Profession } from '../../../models/profession.model';
 import { Student, Years } from '../Student.model';
 import { studentService } from '../student.service';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 
 @Component({
@@ -89,16 +90,32 @@ export class StudenDetailsFormComponent {
     console.log(this.student?.daysOfAbsence);
 
     this.onSaveNewStudent.emit(this.student)
+
+    this.router.navigate(['/studentslist']);
   }
 
 
-  constructor(private _studentService: studentService) {
+  constructor(private _studentService: studentService, private route: ActivatedRoute, private router: Router) {
+    // this.studentForm = new FormGroup({
+    //   "id": new FormControl(0),
+    //   "firstName": new FormControl("", [Validators.required]),
+    //   "lastName": new FormControl(""),
+    //   "address": new FormControl(""),
+    //   "phone": new FormControl("", [Validators.required, Validators.minLength(9), Validators.maxLength(10)]),
+    //   "professions": new FormControl(0),
+    //   "year": new FormControl(Years.FIRST),
+    //   "testsList": new FormControl([]),
+    //   "daysOfAbsence": new FormControl([]),
+    //   "date": new FormControl(),
+    //   "numOfDays": new FormControl(Validators.maxLength(7))
+    // })
 
   }
 
   ngOnChanges() {
     if (this.student) {
       console.log("onChanges", this.student.id);
+
 
       this._studentService.sumOfDaysOfAbsence(this.student.id).then(sum => {
         this.sumOfDaysOfAbsence = sum;
@@ -108,6 +125,23 @@ export class StudenDetailsFormComponent {
       });
     }
   }
+ngOnInit() {
+  this.route.paramMap.subscribe(params => {
+    const studentId = Number(params.get('id')); // מתוך הנתיב
+
+    if (!isNaN(studentId)) {
+      this._studentService.getStudentsFromServer(false, "").subscribe(students => {
+        const student = students.find(s => s.id === studentId);
+        if (student) {
+          this.student = student; // מפעיל את ה־@Input set student
+        } else {
+          console.warn("Student not found");
+        }
+      });
+    }
+  });
+}
+
 
 
 }

@@ -3,6 +3,7 @@ import { Student } from '../Student.model';
 import { studentService } from '../student.service';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-students-list',
@@ -54,10 +55,12 @@ export class StudentsListComponent {
 
   ShowDetails(studentToShow: Student) {
     this.selectedStudent = studentToShow
+    this.router.navigate(['/studentsDetails', studentToShow.id]);
   }
 
   showNewStudentDetails() {
     this.selectedStudent = new Student("", "", "", "", 0)
+    // this.router.navigate(['/studentsDetails', this.students.length + 1]);
   }
 
   saveStudentToList(studentToSave: Student): void | Promise<number> {
@@ -90,8 +93,9 @@ export class StudentsListComponent {
       this._studentService.updateStudentFromServer(studenToUodate).subscribe({
         next: () => {
           this.selectedStudent = undefined;
-          
+
           this.studentsAbsenceSum[studenToUodate.id] = this._studentService.sumOfDaysOfAbsence(studenToUodate.id);
+           this.router.navigate(['/studentslist']);
           alert("update")
           console.log(this.students);
         },
@@ -105,7 +109,7 @@ export class StudentsListComponent {
       return this.studentsAbsenceSum[studenToUodate.id];
 
     }
-   
+
   }
 
 
@@ -115,11 +119,11 @@ export class StudentsListComponent {
   }
 
   onNameInput(value: string) {
-  clearTimeout(this.nameDebounceTimer); // מבטל טיימר קודם אם יש
-  this.nameDebounceTimer = setTimeout(() => {
-    this.FilteringName(value);
-  }, 1000); // ממתין שנייה אחת
-}
+    clearTimeout(this.nameDebounceTimer); // מבטל טיימר קודם אם יש
+    this.nameDebounceTimer = setTimeout(() => {
+      this.FilteringName(value);
+    }, 1000); // ממתין שנייה אחת
+  }
 
   FilteringAct(act: boolean) {
     console.log("active")
@@ -131,15 +135,15 @@ export class StudentsListComponent {
     if (name === this.nameToFilter) {
       console.log("a")
       return
-    } 
+    }
     console.log("b")
     this.nameToFilter = name;
     this.Filtering(this.active, this.nameToFilter);
   }
 
   Filtering(act: boolean, name: string) {
-console.log("filtering")
-    if ((name===null && name===undefined) && act===null) {
+    console.log("filtering")
+    if ((name === null && name === undefined) && act === null) {
       return
     }
     this._studentService.getStudentsFromServer(act, name).subscribe({
@@ -162,9 +166,9 @@ console.log("filtering")
 
 
 
-  constructor(private _studentService: studentService) {
+  constructor(private _studentService: studentService, private router: Router) {
     // alert("constractor")
-     this._studentService.getStudentsFromServer(this.active, this.nameToFilter).subscribe({
+    this._studentService.getStudentsFromServer(this.active, this.nameToFilter).subscribe({
       next: (students) => {
         this.students = students;
         students.forEach(student => {
